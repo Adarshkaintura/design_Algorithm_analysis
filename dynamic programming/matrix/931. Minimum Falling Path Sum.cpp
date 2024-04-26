@@ -46,3 +46,49 @@ public:
         return mini;
     }
 };
+
+//optimized with space only n
+class Solution {
+public:
+// int findsole(vector<vector<int>>& matrix,int i,int j,vector<vector<int>>& dp){
+//     if(j<0 ||j>=matrix[0].size()) return 1e8;
+//     if(i==0)return matrix[0][j];
+//     if(dp[i][j]!=-1){
+//         return dp[i][j];
+//     }
+//     int u=matrix[i][j]+findsole(matrix,i-1,j,dp);
+//     int ld=matrix[i][j]+findsole(matrix,i-1,j-1,dp);
+//     int rd=matrix[i][j]+findsole(matrix,i-1,j+1,dp);
+//     return dp[i][j]=min(u,min(ld,rd));
+
+// }
+    int minFallingPathSum(vector<vector<int>>& matrix) {
+        int mini=1e8;
+        int n=matrix.size();
+        int m=matrix[0].size();
+
+       vector<int> prev(m),curr(m);
+       for(int j=0;j<m;j++){
+             prev[j]=matrix[0][j];   
+       }
+       for(int i=1;i<n;i++){
+         for(int j=0;j<m;j++){
+            int u=matrix[i][j]+prev[j];
+            int ld=matrix[i][j];
+            if(j-1>=0) ld+=prev[j-1];
+            else ld+=1e8;
+    
+            int rd=matrix[i][j];
+            if(j+1<m) rd+=prev[j+1];
+            else rd+=1e8;
+             curr[j]=min(u,min(ld,rd));
+         }
+         prev=curr;
+       }
+
+        for(int j=0;j<m;j++){
+            mini=min(mini,prev[j]);
+        }
+        return mini;
+    }
+};
