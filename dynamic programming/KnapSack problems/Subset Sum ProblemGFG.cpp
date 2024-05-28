@@ -65,3 +65,29 @@ bool isSubsetSum(vector<int> arr, int sum) {
 
 //tabular is easy do everything same but in forloop sum=j, n=i;
 //checki in my notebook
+bool isSubsetSum(vector<int>& arr, int sum) {
+    int n = arr.size();
+    vector<vector<bool>> dp(n + 1, vector<bool>(sum + 1, false));
+    
+    // Initialize the dp array
+    for (int i = 0; i <= n; i++) {
+        dp[i][0] = true; // With 0 sum, we can always have an empty subset
+    }
+    
+    for (int j = 1; j <= sum; j++) {
+        dp[0][j] = false; // With no elements, we cannot achieve positive sums
+    }
+    
+    // Fill the dp array
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= sum; j++) {
+            if (arr[i - 1] <= j) {
+                dp[i][j] = dp[i - 1][j - arr[i - 1]] || dp[i - 1][j];
+            } else {
+                dp[i][j] = dp[i - 1][j];
+            }
+        }
+    }
+    
+    return dp[n][sum];
+}
