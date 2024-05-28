@@ -1,3 +1,20 @@
+//minimum subset sum difference 
+/*  The Minimum Subset Sum Difference problem involves partitioning a given set into two subsets such that the difference between the sums of the subsets is minimized.
+Problem Statement
+
+Given a set of positive integers, we need to divide the set into two subsets such that the difference between the sum of elements in both subsets is minimized.
+Example
+
+Let's consider a set of positive integers: {1, 6, 11, 5}.
+
+We want to partition this set into two subsets such that the difference between the sums of elements in the two subsets is minimized.
+
+Test Case:
+
+    Input: Set = {1, 6, 11, 5}
+    Output: Minimum Subset Sum Difference = 1
+    Explanation: One possible partition is {1, 6, 5} and {11}. The sum of the first subset is 12 and the sum of the second subset is 11, resulting in a difference of 1.*/
+
 #include <iostream>
 #include <vector>
 #include <cmath>
