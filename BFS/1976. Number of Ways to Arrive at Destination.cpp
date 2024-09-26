@@ -108,3 +108,63 @@ public:
         
     }
 };
+
+//my version -- 
+class Solution {
+public:
+    const int MOD = 1e9 + 7;
+    
+    int bfs(unordered_map<long long, vector<pair<long long, long long>>>& adj, int s, int d) {
+        // Priority queue to keep track of (distance, node), using min-heap
+        priority_queue<pair<long long, long long>, vector<pair<long long, long long>>, greater<pair<long long, long long>>> q;
+        
+        vector<long long> dist(d + 1, LLONG_MAX);  // Distance vector initialized to a large number
+        vector<int> ways(d + 1, 0);  // Ways to reach each node initialized to 0
+        
+        dist[s] = 0;  // Distance to source is 0
+        ways[s] = 1;  // There is exactly one way to reach the source
+        
+        q.push({0, s});  // Start from source with distance 0
+        
+        while (!q.empty()) {
+            auto it = q.top();
+            long long wt = it.first;
+            long long a = it.second;
+            q.pop();
+            
+            for (auto an : adj[a]) {
+                long long u = an.first;
+                long long w = an.second;
+                
+                // Found a shorter path to 'u'
+                if (w + wt < dist[u]) {
+                    dist[u] = w + wt;
+                    q.push({dist[u], u});  // Push the updated distance and node into the priority queue
+                    ways[u] = ways[a] % MOD;  // Set ways to reach 'u' based on 'a'
+                }
+                // Found another shortest path with equal distance to 'u'
+                else if (w + wt == dist[u]) {
+                    ways[u] = (ways[u] + ways[a]) % MOD;  // Add the number of ways to reach 'u'
+                }
+            }
+        }
+        return ways[d]%MOD;  // Return the number of ways to reach the destination
+    }
+    
+    int countPaths(int n, vector<vector<int>>& roads) {
+        unordered_map<long long, vector<pair<long long, long long>>> adj;
+        
+        // Build the adjacency list
+        for (int i = 0; i < roads.size(); i++) {
+            int u = roads[i][0];  // Start node
+            int v = roads[i][1];  // End node
+            int wt = roads[i][2]; // Weight of edge
+            
+            adj[u].push_back({v, wt});  // Add v and weight to u's adjacency list
+            adj[v].push_back({u, wt});  // Add u and weight to v's adjacency list (since graph is undirected)
+        }
+        
+        return bfs(adj, 0, n - 1);  // Call BFS from node 0 to node n-1
+    }
+};
+
