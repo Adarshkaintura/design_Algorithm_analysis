@@ -22,3 +22,24 @@ int minJumps(vector<int>& arr) {
 
     return -1;
 }
+
+int minJumps(vector<int>& arr) {
+    int n = arr.size();
+    if (n <= 1) return 0;
+    if (arr[0] == 0) return -1;
+
+    vector<int> temp(n, INT_MAX);
+    temp[0] = 0;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i] == 0 || temp[i] == INT_MAX) continue;
+
+        for (int j = i + 1; j <= i + arr[i] && j < n; j++) {
+            if (temp[j] > temp[i] + 1) {
+                temp[j] = temp[i] + 1;
+            }
+        }
+    }
+
+    return temp[n - 1] == INT_MAX ? -1 : temp[n - 1];
+}
