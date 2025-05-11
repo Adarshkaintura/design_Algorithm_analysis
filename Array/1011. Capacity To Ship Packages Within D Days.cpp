@@ -1,3 +1,4 @@
+//direct
 class Solution {
 public:
      int solve(vector<int>& weights,int m,int days){
