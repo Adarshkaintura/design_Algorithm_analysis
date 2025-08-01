@@ -71,3 +71,30 @@ Output 2:
 
  4
 */
+class Solution {
+public:
+    int minMeetingRooms(vector<vector<int>>& intervals) {
+        vector<int> startTimes, endTimes;
+
+        for (const auto& interval : intervals) {
+            startTimes.push_back(interval[0]);
+            endTimes.push_back(interval[1]);
+        }
+
+        sort(startTimes.begin(), startTimes.end());
+        sort(endTimes.begin(), endTimes.end());
+
+        int rooms = 0, endPtr = 0;
+
+        for (int i = 0; i < startTimes.size(); ++i) {
+            if (startTimes[i] < endTimes[endPtr]) {
+            
+                rooms++;
+            } else {
+                endPtr++;
+            }
+        }
+
+        return rooms;
+    }
+};
